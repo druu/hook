@@ -52,7 +52,7 @@ foreach ($commits as $commit) {
 		$output = call_user_func_array(array($hook, 'run'), array($args, $mail, $opts));
 
 		require_once(HOOKPATH . 'Result.php');
-		Result::run($args, $mail, $opts);
+		Result::run($hook, $output, $args, $mail, $opts);
 
 	} catch (Exception $e) {
 		$args = $e->getMessage() . "\n\nOriginal args: " . $args;

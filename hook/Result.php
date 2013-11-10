@@ -1,5 +1,5 @@
 <?php
-class Result implements iHook {
+final class Result { // Yup we're special... final and no interfacce! PAH!
     public static function run($hook, $content, $args, $mail, $options) {
         $options       = is_object($options) ? $options : (object) $option;
         $markers       = array('#HOOK#', '#CONTENT#');
