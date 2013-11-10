@@ -4,14 +4,12 @@ interface iHook {
 	public static function run($args, $mail, $options = array());
 }
 
-
 $basepath = dirname(__FILE__) . DIRECTORY_SEPARATOR;
 $hookpath = $basepath . 'hook' . DIRECTORY_SEPARATOR;
 $confpath = $basepath . 'conf' . DIRECTORY_SEPARATOR;
 
 // Get users and make sure the "error" user is declared
 $users = @json_decode(@file_get_contents($confpath . 'users.json'), true);
-die("FFS". @$users);
 if (!$users || !@$users['!error']['mail'] || !file_exists($hookpath . 'Err.php')) die();
 $errormail = $users['!error']['mail'] ;
 
