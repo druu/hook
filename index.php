@@ -31,13 +31,13 @@ $commits = empty($payload->commits) ? array($payload->head_commit) : $payload->c
 foreach ($commits as $commit) {
 	try {
 
-		list($hook, $args) =  @explode(' ', @$commit['message'], 2);
+		list($hook, $args) =  @explode(' ', @$commit->message, 2);
 		$hook = ucfirst(strtolower($hook));
 		$args = trim($args);
 
-		$user = @$commit['committer']['username'];
-		$mail = @$users[$user]['mail'];
-		$opts = @$users[$user]['options'];
+		$user = $commit->committer->username;
+		$mail = $users->$user->mail;
+		$opts = $users->$user->options;
 
 		if (!$user || !$mail) {
 			throw new Exception(sprintf('Invalid user: %s, or email: %s', $user, $mail));
