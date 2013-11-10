@@ -4,19 +4,20 @@ interface iHook {
 	public static function run($args, $mail, $options = array());
 }
 
+
 $basepath = dirname(__FILE__) . DIRECTORY_SEPARATOR;
 $hookpath = $basepath . 'hook' . DIRECTORY_SEPARATOR;
 $confpath = $basepath . 'conf' . DIRECTORY_SEPARATOR;
 
 // Get users and make sure the "error" user is declared
-$users = @json_decode(@file_get_contents($confpath . 'users.json'));
-if (!$users || !@$users['!error']['mail'] || !file_exists($hookpath . 'error.php')) die();
+$users = @json_decode(@file_get_contents($confpath . 'users.json'), true);
+die("FFS". @$users);
+if (!$users || !@$users['!error']['mail'] || !file_exists($hookpath . 'Err.php')) die();
 $errormail = $users['!error']['mail'] ;
 
 // Extract payload or die
-$payload = @json_decode(@$_POST['payload']) or die();
+$payload = @json_decode(@$_POST['payload'], true) or die();
 if (!is_array($commits = @$payload['commits']) || !sizeof($commits)) die();
-
 
 foreach ($commits as $commit) {
 	try {
