@@ -27,7 +27,7 @@
                     </table>
                     <br>
                     <br>
-                    <div style="color:#7b7b7b; font-family:Arial, Helvetica, sans-serif; font-size:14px;">#CONTENT#</div>
+                    <div style="color:#7b7b7b; font-family:Arial, Helvetica, sans-serif; font-size:14px;text-align: left;">#CONTENT#</div>
                     <br>
                     <br>
                     <br>
