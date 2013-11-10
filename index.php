@@ -2,7 +2,7 @@
 // FUCK DEBUGGING
 ini_set('display_errors',1); error_reporting(-1);
 ob_start();
-function die_goddammit() { mail('david@druul.in', 'USER FILE ERROR', ob_get_clean()); }
+function die_goddammit( $msg ) { mail('david@druul.in', 'USER FILE ERROR', $msg); }
 var_dump($_POST); echo str_repeat(PHP_EOL, 5);
 
 // Because why the fuck not
@@ -16,7 +16,7 @@ $confpath = $basepath . 'conf' . DIRECTORY_SEPARATOR;
 
 // Get users and make sure the "error" user is declared
 $users = @json_decode(@file_get_contents($confpath . 'users.json'), true);
-if (!$users || !@$users['!error']['mail'] || !file_exists($hookpath . 'Err.php')) ) { die_goddammit(); };
+if (!$users || !@$users['!error']['mail'] || !file_exists($hookpath . 'Err.php')) { die_goddammit( ob_get_clean() ); };
 $errormail = $users['!error']['mail'] ;
 
 // Extract payload or die
@@ -25,7 +25,7 @@ if (!(
 	is_object($payload)
 	&& (property_exists($payload, 'commits') || property_exists($payload, 'head_commit') )
 	&& is_array($payload->commits)
-)) { die_goddammit();  }
+)) { die_goddammit( ob_get_clean() );  }
 $commits = empty($payload->commits) ? array($payload->head_commit) : $payload->commits;
 
 foreach ($commits as $commit) {
