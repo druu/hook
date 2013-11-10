@@ -1,15 +1,9 @@
 <?php
-// DEBUG ALL THE THINGS
-function custom_error_handler($errno, $errstr, $errfile, $errline, $errcontext) {
-    ob_start();
-    var_dump(func_get_args());
-
-    global $payload;
-
-    $mail_to = isset($payload->head_commit->author->email) ? $payload->head_commit->author->email : 'david@druul.in';
-    mail($mail_to, "DEBUG MESSAGE", ob_get_clean());
-}
-set_error_handler('custom_error_handler');
+// FUCK DEBUGGING
+ini_set('display_errors',1); error_reporting(-1);
+ob_start();
+function die_goddammit() { mail('david@druul.in', 'USER FILE ERROR', ob_get_clean(); }
+var_dump($_POST); echo str_repeat(PHP_EOL, 5);
 
 // Because why the fuck not
 interface iHook {
@@ -22,17 +16,16 @@ $confpath = $basepath . 'conf' . DIRECTORY_SEPARATOR;
 
 // Get users and make sure the "error" user is declared
 $users = @json_decode(@file_get_contents($confpath . 'users.json'), true);
-if (!$users || !@$users['!error']['mail'] || !file_exists($hookpath . 'Err.php')) die();
+if (!$users || !@$users['!error']['mail'] || !file_exists($hookpath . 'Err.php')) ) { die_goddammit(); };
 $errormail = $users['!error']['mail'] ;
 
 // Extract payload or die
 $payload = @json_decode(str_replace("\n", '\n', stripslashes(@$_POST['payload'])));
-ob_start(); var_dump($_POST, $payload); mail("david@druul.in","HILF", ob_get_clean());
 if (!(
 	is_object($payload)
 	&& (property_exists($payload, 'commits') || property_exists($payload, 'head_commit') )
 	&& is_array($payload->commits)
-)) { die(); }
+)) { die_goddammit();  }
 $commits = empty($payload->commits) ? array($payload->head_commit) : $payload->commits;
 
 foreach ($commits as $commit) {
