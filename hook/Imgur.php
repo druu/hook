@@ -11,7 +11,7 @@ class Imgur implements iHook {
 			return call_user_func_array(array('self', $method), array($matches));
 		}
 		else {
-			throw new Exception('Unrecognised method: ' . $method . '()');
+			throw new Exception('Unrecognised method: "' . $method . '()"');
 		}
 	}
 
