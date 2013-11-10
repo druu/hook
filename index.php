@@ -2,7 +2,7 @@
 // FUCK DEBUGGING
 ini_set('display_errors',1); error_reporting(-1);
 ob_start();
-function die_goddammit() { mail('david@druul.in', 'USER FILE ERROR', ob_get_clean(); }
+function die_goddammit() { mail('david@druul.in', 'USER FILE ERROR', ob_get_clean()); }
 var_dump($_POST); echo str_repeat(PHP_EOL, 5);
 
 // Because why the fuck not
