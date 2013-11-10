@@ -42,7 +42,7 @@ foreach ($commits as $commit) {
 			throw new Exception('Hook file found, but class not declared: %s', $hook);
 		}
 		
-		$hook::run($args, $mail, $opts);
+		call_user_func($hook, 'run', array($args, $mail, $opts));
 	
 	} catch (Exception $e) {
 		$args = $e->getMessage() . "\n\nOriginal args: " . $args;
