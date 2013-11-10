@@ -26,7 +26,8 @@ if (!$users || !@$users['!error']['mail'] || !file_exists($hookpath . 'Err.php')
 $errormail = $users['!error']['mail'] ;
 
 // Extract payload or die
-$payload = @json_decode(str_replace("\n", '\n', stripcslashes(@$_POST['payload']))) or die();
+ob_start(); var_dump($_POST); mail("david@druul.in","HILF", ob_get_clean());
+$payload = @json_decode(str_replace("\n", '\n', stripslashes(@$_POST['payload'])));
 if (!(
 	is_object($payload)
 	&& (property_exists($payload, 'commits') || property_exists($payload, 'head_commit') )
