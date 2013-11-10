@@ -5,10 +5,14 @@
 	},
 	"fhfaa": {
 		"mail": "anueuh+hook@gmail.com",
-		"options": {}
+		"options": {
+			"mail_tpl": "mustard"
+		}
 	},
 	"druu": {
 		"mail": "david@druul.in",
-		"options": {}
+		"options": {
+			"mail_tpl": "pink"
+		}
 	}
 }
