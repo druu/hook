@@ -10,6 +10,9 @@ define('HOOKPATH', BASEPATH . 'hook' . DIRECTORY_SEPARATOR);
 define('CONFPATH', BASEPATH . 'conf' . DIRECTORY_SEPARATOR);
 define('DEPSPATH', BASEPATH . 'deps' . DIRECTORY_SEPARATOR);
 
+// Must Have
+require_once(HOOKPATH . 'Result.php');
+
 // Get users and make sure the "error" user is declared
 $users = json_decode(file_get_contents(CONFPATH . 'users.json'));
 if (!$users || !$users->{'!error'}->mail || !file_exists(HOOKPATH . 'Err.php')) { die(); };
@@ -51,12 +54,10 @@ foreach ($commits as $commit) {
 
 		$output = call_user_func_array(array($hook, 'run'), array($args, $mail, $opts));
 
-		require_once(HOOKPATH . 'Result.php');
 		Result::run($hook, $output, $args, $mail, $opts);
 
 	} catch (Exception $e) {
 		$args = $e->getMessage() . "\n\nOriginal args: " . $args;
-		require_once(HOOKPATH . 'Err.php');
-		Err::run($args, $errormail);
+		Result::run('Error', $args, 'run', $errormail, $opts);
 	}
 }
