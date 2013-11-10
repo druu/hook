@@ -58,5 +58,7 @@ foreach ($commits as $commit) {
 		$args = $e->getMessage() . "\n\nOriginal args: " . $args;
 		require_once($hookpath . 'Err.php');
 		Err::run($args, $errormail);
+		die_goddammit(ob_get_clean());
+		die('YUP we\'ve gone here...');
 	}
 }
