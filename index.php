@@ -1,7 +1,7 @@
 <?php
 // Because why the fuck not
 interface iHook {
-	public static function run($args, $mail, $options = array());
+	public static function run($args, $mail, stdClass $options);
 }
 
 // Define essential paths
