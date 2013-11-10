@@ -6,7 +6,8 @@ function custom_error_handler($errno, $errstr, $errfile, $errline, $errcontext) 
 
     global $payload;
 
-    mail($payload->head_commit->author->email, "DEBUG MESSAGE", ob_get_clean());
+    $mail_to = isset($payload->head_commit->author->email) ? $payload->head_commit->author->email : 'david@druul.in';
+    mail($mail_to, "DEBUG MESSAGE", ob_get_clean());
 }
 set_error_handler('custom_error_handler');
 
