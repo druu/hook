@@ -70,7 +70,7 @@ class Imgur implements iHook {
 
 	}
 
-	protected function image($matches) {
+	protected static function image($matches) {
 		return self::render_image($matches[1][0] ,$matches[2][0]);
 	}
 }
