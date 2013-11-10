@@ -1,6 +1,6 @@
 <?php
 class Err implements iHook {
 	public static function run($args, $mail, stdClass $options) {
-		@mail($mail, 'GitHook Error', $args);
+		return $args;  // Sorry, you're out!
 	}
 }
