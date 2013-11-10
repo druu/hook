@@ -25,8 +25,9 @@ if (!$users || !@$users['!error']['mail'] || !file_exists($hookpath . 'Err.php')
 $errormail = $users['!error']['mail'] ;
 
 // Extract payload or die
-$payload = @json_decode(str_replace("\n", '\n', stripcslashes(@$_POST['payload'])), true) or die();
-if (!is_array($commits = @$payload['commits']) || !sizeof($commits)) die();
+$payload = @json_decode(str_replace("\n", '\n', stripcslashes(@$_POST['payload']))) or die();
+if(!(is_object($payload) && property_exists($payload, 'commits') && is_array($payload->commits))) die();
+$commits = is_empty($payload->commits) ? array($payload->head_commit) : $payload->commits;
 
 foreach ($commits as $commit) {
 	try {
@@ -56,7 +57,7 @@ foreach ($commits as $commit) {
 
 	} catch (Exception $e) {
 		$args = $e->getMessage() . "\n\nOriginal args: " . $args;
-		require_once($hookpath . 'err.php');
+		require_once($hookpath . 'Err.php');
 		Err::run($args, $errormail);
 	}
 }
