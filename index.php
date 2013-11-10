@@ -1,7 +1,7 @@
 <?php
 // Because why the fuck not
 interface iHook {
-	public static function run($args, $mail, define('OPTIONS', array()));
+	public static function run($args, $mail, $options = array());
 }
 
 // Define essential paths
@@ -11,30 +11,30 @@ define('CONFPATH', BASEPATH . 'conf' . DIRECTORY_SEPARATOR);
 define('DEPSPATH', BASEPATH . 'deps' . DIRECTORY_SEPARATOR);
 
 // Get users and make sure the "error" user is declared
-define('USERS', json_decode(file_get_contents(CONFPATH . 'users.json')));
+$users = json_decode(file_get_contents(CONFPATH . 'users.json'));
 if (!$users || !$users->{'!error'}->mail || !file_exists(HOOKPATH . 'Err.php')) { die(); };
-define('ERRORMAIL', $users->{'!error'}->mail );
+$errormail = $users->{'!error'}->mail ;
 
 // Extract payload or die
-define('PAYLOAD', json_decode(str_replace("\n", '\n', stripslashes($_POST['payload']))));
+$payload = json_decode(str_replace("\n", '\n', stripslashes($_POST['payload'])));
 if (!(
 	is_object($payload)
 	&& (property_exists($payload, 'commits') || property_exists($payload, 'head_commit') )
 	&& is_array($payload->commits)
 )) { die(); }
-define('COMMITS', empty($payload->commits) ? array($payload->head_commit) : $payload->commits);
+$commits = empty($payload->commits) ? array($payload->head_commit) : $payload->commits;
 
 foreach ($commits as $commit) {
 	try {
 
 		list($exec, $hook, $args) =  @explode(' ', @$commit->message, 3);
 		if(strtoupper($exec) !== 'EXEC') { continue; }
-		define('HOOK', ucfirst(strtolower($hook)));
-		define('ARGS', trim($args));
+		$hook = ucfirst(strtolower($hook));
+		$args = trim($args);
 
-		define('USER', $commit->committer->username);
-		define('MAIL', $users->$user->mail);
-		define('OPTS', $users->$user->options);
+		$user = $commit->committer->username;
+		$mail = $users->$user->mail;
+		$opts = $users->$user->options;
 
 		if (!$user || !$mail) {
 			throw new Exception(sprintf('Invalid user: %s, or email: %s', $user, $mail));
@@ -49,13 +49,13 @@ foreach ($commits as $commit) {
 			throw new Exception('Hook file found, but class not declared: %s', $hook);
 		}
 
-		define('OUTPUT', call_user_func_array(array($hook, 'run'), array($args, $mail, $opts)));
+		$output = call_user_func_array(array($hook, 'run'), array($args, $mail, $opts));
 
 		require_once(HOOKPATH . 'Result.php');
 		Result::run($args, $mail, $opts);
 
 	} catch (Exception $e) {
-		define('ARGS', $e->getMessage() . "\n\nOriginal args: " . $args);
+		$args = $e->getMessage() . "\n\nOriginal args: " . $args;
 		require_once(HOOKPATH . 'Err.php');
 		Err::run($args, $errormail);
 	}
