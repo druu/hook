@@ -1,6 +1,10 @@
 <?php
 class Imgur implements iHook {
 	protected static $re_frontpage_posts = '~class="post".+?src="//([^"]+?)" title="([^<"]+?)[<"]~misu';
+	protected static $re_single_post     = array(
+		'image' => '~<img src="//([^"]+?)" alt~misu',
+		'title' => "~id='image-title'>(.+?)</h2>~misu"
+	);
 
 	public static function run($args, $mail, stdClass $options) {
 		list($method, $args) = explode(' ', $args, 2);
@@ -49,7 +53,16 @@ class Imgur implements iHook {
 			throw new Exception("Failed to fetch Imgur Homepage");
 		}
 
-		preg_match_all(self::$re_frontpage_posts, $html, $matches);
+		$matches = array(array());
+		if(is_null($id)) {
+			preg_match_all(self::$re_frontpage_posts, $html, $matches);
+		}
+		else {
+			preg_match(self::$re_single_post['image'], $html, $image);
+			preg_match(self::$re_single_post['title'], $html, $title);
+			$matches[1][0] = $image[1];
+			$matches[2][0] = $title[1];
+		}
 
 		if (!count($matches[1]) || !count($matches[2])) {
 			throw new Exception("Failed to fetch Images");
