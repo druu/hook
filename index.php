@@ -25,7 +25,7 @@ if (!$users || !@$users['!error']['mail'] || !file_exists($hookpath . 'Err.php')
 $errormail = $users['!error']['mail'] ;
 
 // Extract payload or die
-$payload = @json_decode(@$_POST['payload'], true) or die();
+$payload = @json_decode(str_replace("\n", '', stripcslashes(@$_POST['payload'])), true) or die();
 if (!is_array($commits = @$payload['commits']) || !sizeof($commits)) die();
 
 foreach ($commits as $commit) {
