@@ -1,6 +1,7 @@
 <?php
 final class Result { // Yup we're special... final and no interfacce! PAH!
     public static function run($hook, $content, $args, $mail, $options) {
+        $args          = strlen($args) ? $args : 'run';
         $options       = is_object($options) ? $options : (object) $option;
         $markers       = array('#HOOK#', '#CONTENT#');
         $replacement   = array($hook, $content);
@@ -12,8 +13,7 @@ final class Result { // Yup we're special... final and no interfacce! PAH!
             : str_replace($template_name, 'default', $filename)   // Fallback
         );
 
-
-        $subject = $hook . '::' . $args . '[' . date('d.m.Y H:i:s') . ']' ;
+        $subject = $hook . '::' . $args . ' [' . date('d.m.Y H:i:s') . ']' ;
         $message = self::render($template, $markers, $replacement);
 
         $header  = 'MIME-Version: 1.0' . "\r\n";
