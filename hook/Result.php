@@ -18,6 +18,7 @@ final class Result { // Yup we're special... final and no interfacce! PAH!
 
         $header  = 'MIME-Version: 1.0' . "\r\n";
         $header .= 'Content-type: text/' . $type . '; charset=UTF' . "\r\n";
+        $header .= 'From: Stealthy Servant<anon@druul.in>' . "\r\n";
 
         mail($mail, $subject, $message, $header);
     }
