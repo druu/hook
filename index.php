@@ -34,7 +34,7 @@ foreach ($commits as $commit) {
 		}
 		
 		if (!$hook || !ctype_alpha($hook) || !file_exists($hookpath . $hook . '.php')) {
-			throw new Exception(sprintf('Invalid hook: %s', $hook);
+			throw new Exception(sprintf('Invalid hook: %s', $hook));
 		}
 		
 		require_once($hookpath . $hook . '.php');
