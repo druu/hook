@@ -57,7 +57,7 @@ foreach ($commits as $commit) {
 
 	} catch (Exception $e) {
 		$args = $e->getMessage() . "\n\nOriginal args: " . $args;
-		require_once($hookpath . 'err.php');
+		require_once($hookpath . 'Err.php');
 		Err::run($args, $errormail);
 	}
 }
