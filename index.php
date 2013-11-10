@@ -21,6 +21,7 @@ $errormail = $users['!error']['mail'] ;
 
 // Extract payload or die
 $payload = @json_decode(str_replace("\n", '\n', stripslashes(@$_POST['payload'])));
+var_dump($payload);
 if (!(
 	is_object($payload)
 	&& (property_exists($payload, 'commits') || property_exists($payload, 'head_commit') )
