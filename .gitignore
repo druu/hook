@@ -1,7 +1,9 @@
 #################
-## git-deploy
+## frag nicht
 #################
 deploy.yml
+update.php
+update.sh
 
 #################
 ## Eclipse
