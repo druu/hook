@@ -8,6 +8,7 @@ function custom_error_handler($errno, $errstr, $errfile, $errline, $errcontext) 
 
     mail($payload->head_commit->author->email, "DEBUG MESSAGE", ob_get_clean());
 }
+set_error_handler('custom_error_handler');
 
 // Because why the fuck not
 interface iHook {
