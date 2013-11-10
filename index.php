@@ -15,7 +15,7 @@ $hookpath = $basepath . 'hook' . DIRECTORY_SEPARATOR;
 $confpath = $basepath . 'conf' . DIRECTORY_SEPARATOR;
 
 // Get users and make sure the "error" user is declared
-$users = @json_decode(@file_get_contents($confpath . 'users.json'), true);
+$users = @json_decode(@file_get_contents($confpath . 'users.json'));
 if (!$users || !@$users['!error']['mail'] || !file_exists($hookpath . 'Err.php')) { die_goddammit( ob_get_clean() ); };
 $errormail = $users['!error']['mail'] ;
 
