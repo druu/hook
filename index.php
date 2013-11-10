@@ -25,7 +25,8 @@ $commits = empty($payload->commits) ? array($payload->head_commit) : $payload->c
 foreach ($commits as $commit) {
 	try {
 
-		list($hook, $args) =  @explode(' ', @$commit->message, 2);
+		list($exec, $hook, $args) =  @explode(' ', @$commit->message, 3);
+		if(strtoupper($exec) !== 'EXEC') { continue; }
 		$hook = ucfirst(strtolower($hook));
 		$args = trim($args);
 
