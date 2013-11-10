@@ -2,7 +2,7 @@
 // FUCK DEBUGGING
 ini_set('display_errors',1); error_reporting(-1);
 ob_start();
-function die_goddammit( $msg ) { mail('david@druul.in', 'USER FILE ERROR', $msg); }
+function die_goddammit( $msg ) { echo "DIED!".PHP_EOL.PHP_EOL; mail('david@druul.in', 'USER FILE ERROR', $msg); }
 var_dump($_POST); echo str_repeat(PHP_EOL, 5);
 
 // Because why the fuck not
